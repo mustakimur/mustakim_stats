@@ -29,10 +29,10 @@ def generate_output_folder() -> None:
 
 async def generate_overview(s: Stats) -> None:
     """
-    Generate an png badge with summary statistics
+    Generate an SVG badge with summary statistics
     :param s: Represents user's GitHub statistics
     """
-    with open("templates/overview.png", "r") as f:
+    with open("templates/overview.svg", "r") as f:
         output = f.read()
 
     output = re.sub("{{ name }}", await s.name, output)
@@ -45,16 +45,16 @@ async def generate_overview(s: Stats) -> None:
     output = re.sub("{{ repos }}", f"{len(await s.repos):,}", output)
 
     generate_output_folder()
-    with open("generated/overview.png", "w") as f:
+    with open("generated/overview.svg", "w") as f:
         f.write(output)
 
 
 async def generate_languages(s: Stats) -> None:
     """
-    Generate an png badge with summary languages used
+    Generate an SVG badge with summary languages used
     :param s: Represents user's GitHub statistics
     """
-    with open("templates/languages.png", "r") as f:
+    with open("templates/languages.svg", "r") as f:
         output = f.read()
 
     progress = ""
@@ -73,9 +73,9 @@ async def generate_languages(s: Stats) -> None:
         )
         lang_list += f"""
 <li style="animation-delay: {i * delay_between}ms;">
-<png xmlns="http://www.w3.org/2000/png" class="octicon" style="fill:{color};"
+<svg xmlns="http://www.w3.org/2000/svg" class="octicon" style="fill:{color};"
 viewBox="0 0 16 16" version="1.1" width="16" height="16"><path
-fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path></png>
+fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path></svg>
 <span class="lang">{lang}</span>
 <span class="percent">{data.get("prop", 0):0.2f}%</span>
 </li>
@@ -86,7 +86,7 @@ fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path></png>
     output = re.sub(r"{{ lang_list }}", lang_list, output)
 
     generate_output_folder()
-    with open("generated/languages.png", "w") as f:
+    with open("generated/languages.svg", "w") as f:
         f.write(output)
 
 
